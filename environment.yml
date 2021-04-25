@@ -1,0 +1,3 @@
+name: mmconv_cli
+dependencies:
+  - python=3.9
