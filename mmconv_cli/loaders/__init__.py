@@ -9,23 +9,18 @@ This contains the different custom file loaders
 
 import pandas as pd
 
-custom_file_loaders = {}
+from . import kuda_loader
 
 
-def default_loader(file_path: str, file_type: str):
+custom_file_loaders = {
+    'Kuda': kuda_loader.load_file,
+}
+
+
+def default_loader(file_path: str, file_type: str) -> pd.DataFrame:
     """Default file loader used across all banks"""
 
     if file_type == 'xlsx':
         df = pd.read_excel(file_path)
 
     return df
-
-
-def get_read_func(file_type):
-    """Returns the correct IO read function based on file type"""
-    file_types = {
-        'xlsx': pd.read_excel,
-        'csv': pd.read_csv
-    }
-
-    return file_types[file_type]
