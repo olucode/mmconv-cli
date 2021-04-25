@@ -8,11 +8,12 @@
 This is the test module for the project's command-line interface (CLI)
 module.
 """
+# fmt: on
+from click.testing import CliRunner, Result
+
 # fmt: off
 import mmconv_cli.cli as cli
 from mmconv_cli import __version__
-# fmt: on
-from click.testing import CliRunner, Result
 
 
 # To learn more about testing Click applications, visit the link below.
@@ -26,8 +27,10 @@ def test_version_displays_library_version():
     """
     runner: CliRunner = CliRunner()
     result: Result = runner.invoke(cli.cli, ["version"])
+    output = result.output.strip()
+
     assert (
-        __version__ in result.output.strip()
+        __version__ in output
     ), "Version number should match library version."
 
 
