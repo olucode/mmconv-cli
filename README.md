@@ -1,6 +1,6 @@
 # mmconv_cli
 
-This is my click command-line app project.
+This is a CLI tool that handles conversion of bank account statemnts to a format that [MoneyManager](https://www.realbyteapps.com/) supports.
 
 ## Project Features
 
@@ -33,13 +33,7 @@ Below are some handy resource links.
 * [GNU Make](https://www.gnu.org/software/make/) is a tool which controls the generation of executables and other non-source files of a program from the program's source files.
 
 
-## Authors
-
-* **olucode** - *Initial work* - [github](https://github.com/olucode)
-
-See also the list of [contributors](https://github.com/olucode/mmconv_cli/contributors) who participated in this project.
-
-## LicenseMIT License
+## MIT License
 
 Copyright (c) olucode
 
