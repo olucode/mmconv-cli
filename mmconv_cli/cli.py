@@ -19,6 +19,7 @@ It can be used as a handy facility for running the task from a command line.
 .. moduleauthor:: olucode <olucode6379@gmail.com>
 """
 import logging
+from mmconv_cli.convert import ConvertOpts, convert
 import click
 from .__init__ import __version__
 
@@ -44,12 +45,19 @@ class Info(object):
 pass_info = click.make_pass_decorator(Info, ensure=True)
 
 
-# Change the options to below to suit the actual options for your task (or
-# tasks).
-@click.group()
-@click.option("--verbose", "-v", count=True, help="Enable verbose output.")
+# @click.group(invoke_without_command=True)
+@click.command()
+@click.argument('input', type=click.Path(
+    exists=True, resolve_path=True))
+@click.argument('out',  type=click.Path(
+    exists=False, resolve_path=True))
+@click.option("--bank", "-b", help="Bank Statement")
+@click.option("--encoding", "-e", default='xlsx', help="Input file type")
+@click.option("--output", "-o", default='unicode', help="Output file type")
+@click.option("--verbose", "-vv", count=True, help="Enable verbose output.")
+# @click.option("--version", "-v", count=True, help="Get library version")
 @pass_info
-def cli(info: Info, verbose: int):
+def cli(info: Info, verbose: int, input: str, out: str, output: str, bank: str, encoding: str):
     """Run mmconv-cli."""
     # Use the verbosity count to determine the logging level...
     if verbose > 0:
@@ -67,15 +75,16 @@ def cli(info: Info, verbose: int):
         )
     info.verbose = verbose
 
+    # TODO: Validate args
 
-@cli.command()
-@pass_info
-def hello(_: Info):
-    """Say 'hello' to the nice people."""
-    click.echo("mmconv-cli says 'hello'")
+    # Perform Conversion
+    opts = ConvertOpts(
+        file_path=input,
+        output_path=out,
+        bank=bank,
+        file_type=encoding,
+        output_type=output
+    )
+    result = convert(opts)
 
-
-@cli.command()
-def version():
-    """Get the library version."""
-    click.echo(click.style(f"{__version__}", bold=True))
+    click.echo(result)

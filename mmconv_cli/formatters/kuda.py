@@ -1,4 +1,3 @@
-import logging
 import pandas as pd
 
 from mmconv_cli.utils import filter_expense, filter_income

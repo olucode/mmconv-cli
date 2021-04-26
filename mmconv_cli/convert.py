@@ -27,7 +27,8 @@ def convert(opts: ConvertOpts) -> str:
     # Load bank formatter
     df_new = load_formatter(df, opts.bank)
 
-    output_path = create_output_file(df_new, opts.output_path)
+    output_path = create_output_file(
+        df_new, opts.output_path, opts.output_type)
 
     return output_path
 
@@ -51,6 +52,7 @@ def load_formatter(df: pd.DataFrame, bank: str) -> pd.DataFrame:
     df_new['Main Cat.'] = DEFAULT_MM_MAIN_CAT
     df_new['Sub Cat.'] = ''
     df_new['Details'] = ''
+    df_new['Date'] = df_new["Date"].dt.strftime('%Y.%m.%d')
 
     # Reorganize Columns
     columns = [
@@ -65,10 +67,15 @@ def load_formatter(df: pd.DataFrame, bank: str) -> pd.DataFrame:
     ]
     df_ = df_new[columns]
 
-    print(df_)
-
     return df_
 
 
-def create_output_file(df: pd.DataFrame, output_path: str):
+def create_output_file(df: pd.DataFrame, output_path: str, output_encoding):
+    encodings = {
+        'unicode': 'utf-8'
+    }
+
+    df.to_csv(output_path, index=False, sep='\t',
+              encoding=encodings[output_encoding])
+
     return output_path
